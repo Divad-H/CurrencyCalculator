@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Printing;
@@ -8,61 +9,13 @@ using System.Text;
 
 namespace CurrencyCalculator
 {
+    [AddINotifyPropertyChangedInterface]
     public class ReactiveViewModel : INotifyPropertyChanged, IDisposable
     {
-        #region Property Lametta
-        private bool _yenChecked = true;
-        public bool YenChecked
-        {
-            get => _yenChecked;
-            set
-            {
-                if (value == _yenChecked)
-                    return;
-                _yenChecked = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private int _inputAmount;
-        public int InputAmount
-        {
-            get => _inputAmount;
-            set
-            {
-                if (value == _inputAmount)
-                    return;
-                _inputAmount = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private decimal _conversionFactor;
-        public decimal ConversionFactor
-        {
-            get => _conversionFactor;
-            set
-            {
-                if (value == _conversionFactor)
-                    return;
-                _conversionFactor = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private decimal _result = 0;
-        public decimal Result
-        {
-            get => _result;
-            set
-            {
-                if (value == _result)
-                    return;
-                _result = value;
-                NotifyPropertyChanged();
-            }
-        }
-        #endregion
+        public bool YenChecked { get; set; }
+        public int InputAmount { get; set; }
+        public decimal ConversionFactor { get; set; }
+        public decimal Result { get; set; }
 
         private readonly ExchangeRateService _exchangeRateService = new ExchangeRateService();
         private readonly IDisposable _subscription;
@@ -87,13 +40,9 @@ namespace CurrencyCalculator
                 ConversionFactor = res.rate;
             });
         }
-
-
-
+#pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
+#pragma warning restore CS0067
         public void Dispose()
             => _subscription.Dispose();
     }
