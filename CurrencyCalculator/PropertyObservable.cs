@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
-using System.Text;
 
 namespace CurrencyCalculator
 {

@@ -1,11 +1,7 @@
 ﻿using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Printing;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace CurrencyCalculator
 {
