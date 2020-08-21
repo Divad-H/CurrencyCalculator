@@ -12,3 +12,6 @@ CurrencyCalculator/obj/
 CurrencyCalculator/FodyWeavers.xsd
 ReactiveSandbox/bin/
 ReactiveSandbox/obj/
+DoubleClick/bin/
+DoubleClick/obj/
+*.user
