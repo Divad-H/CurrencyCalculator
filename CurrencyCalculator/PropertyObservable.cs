@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace CurrencyCalculator
@@ -19,6 +20,13 @@ namespace CurrencyCalculator
                 .Where(args => args.EventArgs.PropertyName == propertyName)
                 .Select(_ => func(viewModel))
                 .StartWith(func(viewModel));
+        }
+
+        public static T DisposeWith<T>(this T disposable, CompositeDisposable disposables)
+            where T : IDisposable
+        {
+            disposables.Add(disposable);
+            return disposable;
         }
     }
 }

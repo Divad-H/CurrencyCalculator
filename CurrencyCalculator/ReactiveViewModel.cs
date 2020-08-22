@@ -31,11 +31,13 @@ namespace CurrencyCalculator
                 .CombineLatest(rateObservable, (inputAmount, rate)
                     => rate * inputAmount);
 
-            var subscription = resultObservable.Subscribe(res => Result = res);
-            _disposables.Add(subscription);
+            resultObservable
+                .Subscribe(res => Result = res)
+                .DisposeWith(_disposables);
 
-            subscription = rateObservable.Subscribe(rate => ConversionFactor = rate);
-            _disposables.Add(subscription);
+            rateObservable
+                .Subscribe(rate => ConversionFactor = rate)
+                .DisposeWith(_disposables);
         }
 #pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged;
