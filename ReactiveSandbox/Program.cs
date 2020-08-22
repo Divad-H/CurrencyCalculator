@@ -37,14 +37,6 @@ namespace ReactiveSandbox
 
         static void Reactive(IObservable<int> data)
         {
-            // 1, 4, 2, 8, 3, 2, 19, 7
-            var results = data
-                .Where(val => val % 2 == 0)
-                .Select(val => val / 2)
-                .Skip(1);
-
-            results
-                .Subscribe(val => Console.WriteLine(val));
         }
     }
 }
