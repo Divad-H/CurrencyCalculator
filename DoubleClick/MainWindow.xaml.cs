@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace DoubleClick
 {
@@ -30,6 +31,18 @@ namespace DoubleClick
                 .Subscribe(count => TextBlock.Text = count.ToString());
 
             InitializeComponent();
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            Background = new SolidColorBrush(Colors.LightBlue);
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            Background = new SolidColorBrush(Colors.White);
+            base.OnMouseUp(e);
         }
     }
 }

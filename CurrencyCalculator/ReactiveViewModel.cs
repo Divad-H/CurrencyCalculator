@@ -1,6 +1,7 @@
 ﻿using PropertyChanged;
 using System;
 using System.ComponentModel;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace CurrencyCalculator
@@ -14,32 +15,32 @@ namespace CurrencyCalculator
         public decimal Result { get; set; }
 
         private readonly ExchangeRateService _exchangeRateService = new ExchangeRateService();
-        private readonly IDisposable _subscription;
+        private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
         public ReactiveViewModel()
         {
             var yenCheckedObservable = this.FromProperty(vm => vm.YenChecked);
             var inputAmountObservable = this.FromProperty(vm => vm.InputAmount);
 
-            var resultObservable = inputAmountObservable
-                .CombineLatest(yenCheckedObservable, (inputAmount, isYen)
-                    => Observable.FromAsync(async () =>
-                    {
-                        var rate = await _exchangeRateService.GetExchangeRate(isYen);
-                        return new { rate, result = rate * inputAmount };
-                    }))
+            var rateObservable = yenCheckedObservable
+                .Select(yenChecked => Observable
+                    .FromAsync(() => _exchangeRateService.GetExchangeRate(yenChecked)))
                 .Switch();
 
-            _subscription = resultObservable.Subscribe(res =>
-            {
-                Result = res.result;
-                ConversionFactor = res.rate;
-            });
+            var resultObservable = inputAmountObservable
+                .CombineLatest(rateObservable, (inputAmount, rate)
+                    => rate * inputAmount);
+
+            var subscription = resultObservable.Subscribe(res => Result = res);
+            _disposables.Add(subscription);
+
+            subscription = rateObservable.Subscribe(rate => ConversionFactor = rate);
+            _disposables.Add(subscription);
         }
 #pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged;
 #pragma warning restore CS0067
         public void Dispose()
-            => _subscription.Dispose();
+            => _disposables.Dispose();
     }
 }
