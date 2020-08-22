@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CurrencyCalculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="800">
+        Title="MainWindow" Height="780" Width="800">
     <StackPanel x:Name="OuterPanel">
         <StackPanel.LayoutTransform>
             <ScaleTransform ScaleX="2.5" ScaleY="2.5" CenterX=".5" CenterY=".5" />
@@ -93,7 +93,17 @@
 
             
         </StackPanel>
-        
-        
+
+        <Button Content="Buy!!!" Margin="10" Height="25" Width="150" HorizontalAlignment="Right">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseCaptureWithin" Value="True">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </StackPanel>
 </Window>
