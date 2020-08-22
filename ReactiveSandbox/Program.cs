@@ -9,19 +9,23 @@ namespace ReactiveSandbox
     {
         static void Main(string[] args)
         {
-            var data = new List<int>() { 1, 4, 2, 8, 3, 2, 19, 7 };
-            Console.WriteLine("Reactive? j/n");
-            var inp = Console.ReadLine();
-            if (inp == "j")
-                Reactive(data.ToObservable()
-                    .Zip(Observable.Interval(TimeSpan.FromMilliseconds(500)), (val, _) => val));
-            else
-                Traditional(data);
-            Console.ReadLine();
+            while (true)
+            {
+                var data = new List<int>() { 1, 4, 2, 8, 3, 2, 19, 7 };
+                Console.WriteLine("Reactive? j/n");
+                var inp = Console.ReadLine();
+                if (inp == "j")
+                    Reactive(data.ToObservable()
+                        .Zip(Observable.Interval(TimeSpan.FromMilliseconds(500)), (val, _) => val));
+                else
+                    Traditional(data);
+                Console.ReadLine();
+            }
         }
 
         static void Traditional(IEnumerable<int> data)
         {
+            // 1, 4, 2, 8, 3, 2, 19, 7
             var results = data
                 .Where(val => val % 2 == 0)
                 .Select(val => val / 2)
@@ -33,6 +37,7 @@ namespace ReactiveSandbox
 
         static void Reactive(IObservable<int> data)
         {
+            // 1, 4, 2, 8, 3, 2, 19, 7
             var results = data
                 .Where(val => val % 2 == 0)
                 .Select(val => val / 2)

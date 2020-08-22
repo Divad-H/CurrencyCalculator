@@ -5,7 +5,7 @@ namespace CurrencyCalculator
 {
     public class ExchangeRateService
     {
-        Random _random = new Random();
+        readonly Random _random = new Random();
         public async Task<decimal> GetExchangeRate(bool isYen)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(_random.NextDouble() * 1500));

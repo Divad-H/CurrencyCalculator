@@ -61,7 +61,7 @@ namespace CurrencyCalculator
         }
         #endregion
 
-        private ExchangeRateService _exchangeRateService = new ExchangeRateService();
+        private readonly ExchangeRateService _exchangeRateService = new ExchangeRateService();
 
         async void InputAmountChanged(int newAmount)
         {

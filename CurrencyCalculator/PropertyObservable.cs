@@ -7,7 +7,7 @@ namespace CurrencyCalculator
 {
     static class PropertyObservable
     {
-        public static IObservable<T> Create<T, VM>(this VM viewModel, Expression<Func<VM, T>> getProperty)
+        public static IObservable<T> FromProperty<T, VM>(this VM viewModel, Expression<Func<VM, T>> getProperty)
             where VM : INotifyPropertyChanged
         {
             var func = getProperty.Compile();

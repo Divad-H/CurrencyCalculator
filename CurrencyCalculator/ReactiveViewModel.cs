@@ -18,10 +18,10 @@ namespace CurrencyCalculator
 
         public ReactiveViewModel()
         {
-            var yenCheckedObservable = this.Create(vm => vm.YenChecked);
-            var inputAmountObservable = this.Create(vm => vm.InputAmount);
+            var yenCheckedObservable = this.FromProperty(vm => vm.YenChecked);
+            var inputAmountObservable = this.FromProperty(vm => vm.InputAmount);
 
-            var resultOvservable = inputAmountObservable
+            var resultObservable = inputAmountObservable
                 .CombineLatest(yenCheckedObservable, (inputAmount, isYen)
                     => Observable.FromAsync(async () =>
                     {
@@ -30,7 +30,7 @@ namespace CurrencyCalculator
                     }))
                 .Switch();
 
-            _subscription = resultOvservable.Subscribe(res =>
+            _subscription = resultObservable.Subscribe(res =>
             {
                 Result = res.result;
                 ConversionFactor = res.rate;
