@@ -22,12 +22,13 @@ namespace DoubleClick
                     x => MouseUp -= x);
 
             var doubleClickStream = clickStream
-                .Buffer(() => clickStream.Throttle(TimeSpan.FromMilliseconds(200), DispatcherScheduler.Current))
+                .Buffer(() => clickStream
+                    .Throttle(TimeSpan.FromMilliseconds(200), DispatcherScheduler.Current))
                 .Select(l => l.Count)
                 .Where(c => c >= 2);
 
             doubleClickStream
-                .Scan(0, (acc, _) => ++acc)
+                .Scan(0, (acc, _) => acc + 1)
                 .Subscribe(count => TextBlock.Text = count.ToString());
 
             InitializeComponent();

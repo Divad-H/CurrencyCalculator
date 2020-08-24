@@ -39,6 +39,7 @@ namespace CurrencyCalculator
                 .Subscribe(rate => ConversionFactor = rate)
                 .DisposeWith(_disposables);
         }
+
 #pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged;
 #pragma warning restore CS0067
